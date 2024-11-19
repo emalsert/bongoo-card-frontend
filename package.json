@@ -11,6 +11,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build",
+    "start": "nginx -p /app -c config/nginx.conf",
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
@@ -36,8 +37,8 @@
     "vite-plugin-checker": "^0.8.0"
   },
   "engines": {
-    "node": "^20 || ^18 || ^16",
-    "npm": ">= 6.13.4",
+    "node": "18.x",
+    "npm": "9.x",
     "yarn": ">= 1.21.1"
   }
 }
