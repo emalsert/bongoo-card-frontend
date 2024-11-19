@@ -10,9 +10,8 @@ import AdminLayout from 'layouts/AdminLayout.vue';
 import Signup from 'pages/Signup.vue';
 import Login from 'pages/Login.vue';
 import Home from 'pages/Home.vue';
-import RoutesList from 'pages/RoutesList.vue';
 import UserProfile from 'pages/user/_id.vue';
-import UserCard from 'pages/user/Card.vue';
+import UserCard from 'pages/user/card.vue';
 import ManageOffers from 'pages/admin/ManageOffers.vue'; // Page admin
 import ManageUsers from 'pages/admin/ManageUsers.vue';
 import UnauthorizedCompo from 'pages/unauthorized.vue'; // Page pour accès non autorisé
