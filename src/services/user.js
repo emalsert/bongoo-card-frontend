@@ -96,5 +96,45 @@ export const getUserIdPhoto = async (userId) => {
   }
 }
 
+export const updatePassword = async (passwordData) => {
+  const auth = useAuthStore();
+  const { token } = storeToRefs(auth);
+
+  if (!token.value) {
+    throw new Error('No authentication token available');
+  }
+
+  try {
+    const response = await api.put('/user/update-password', passwordData, {
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating password:', error);
+    throw error;
+  }
+};
+
+export const sendResetPasswordEmail = async (emailData) => {
+  try {
+    const response = await api.post('/forgot-password', emailData);
+    return response.data;
+  } catch (error) {
+    console.error('Error sending reset password email:', error);
+    throw error;
+  }
+};
+
+export const resetPassword = async (passwordData) => {
+  try {
+    const response = await api.post('/reset-password', passwordData);
+    return response.data;
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    throw error;
+  }
+};
 
 

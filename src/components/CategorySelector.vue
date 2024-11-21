@@ -1,6 +1,5 @@
 <template>
-  <div class="category-nav">
-    <label for="category">Catégorie :</label>
+  <q-card class="category-nav">
     <q-select
       v-model="selectedCategory"
       @update:model-value="onCategoryChange"
@@ -8,7 +7,7 @@
       label="Choisir une catégorie"
       clearable
     />
-  </div>
+  </q-card>
 </template>
 
 <script>
@@ -39,5 +38,8 @@ export default {
 <style scoped>
 .category-nav {
   margin-bottom: 20px;
+  margin-top: 2%;
+  max-width: 1200px;
+  padding: 5px;
 }
 </style>

@@ -1,7 +1,7 @@
 <!-- src/components/OfferTable.vue -->
 <template>
   <div>
-    <h2>Offers</h2>
+
     <q-table
       :columns="columns"
       :rows="offers"

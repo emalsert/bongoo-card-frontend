@@ -16,9 +16,15 @@ import ManageOffers from 'pages/admin/ManageOffers.vue'; // Page admin
 import ManageUsers from 'pages/admin/ManageUsers.vue';
 import UnauthorizedCompo from 'pages/unauthorized.vue'; // Page pour accès non autorisé
 import OffersPage from "pages/OffersPage.vue";
+import faq from "pages/faq.vue";
 
 // Catch-all
 import ErrorNotFound from 'pages/ErrorNotFound.vue';
+import getIt from "pages/getIt.vue";
+import ChangePasswordPage from "pages/ChangePasswordPage.vue";
+import ForgotPassword from '../components/ForgotPassword.vue';
+import ResetPassword from '../components/ResetPassword.vue';
+
 
 
 
@@ -38,6 +44,14 @@ const routes = [
         component: Home,
       },
       {
+        path: 'faq',
+        component: faq,
+      },
+      {
+        path: 'get-it',
+        component: getIt,
+      },
+      {
         path: 'offers',
         component: OffersPage,
       },
@@ -51,6 +65,24 @@ const routes = [
         name: 'UserCard',
         component: UserCard,
         meta: { requiresAuth: true },
+      },
+      {
+        path: 'user/change-password',
+        name: 'ChangePasswordPage',
+        component: ChangePasswordPage,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/forgot-password',
+        name: 'ForgotPassword',
+        component: ForgotPassword,
+        meta: { guest: true },
+      },
+      {
+        path: '/reset-password',
+        name: 'ResetPassword',
+        component: ResetPassword,
+        meta: { guest: true },
       },
       // Ajoutez d'autres routes qui nécessitent le layout par défaut ici
     ],

@@ -1,35 +1,52 @@
-```vue
 <template>
-  <q-card class="cardCompo">
-    <div class="offer-image">
-      <q-img :src="offer.image" alt="Image de l'offre" />
-    </div>
-    <div class="offer-details">
-      <h2>{{ offer.title }}</h2>
-      <h3>{{ offer.offer_details }}</h3>
-      <p>{{ offer.description }}</p>
-      <p><strong>Catégorie : </strong>{{ offer.category }}</p>
-      <q-btn
-        v-if="offer.google_maps"
-        :href="offer.google_maps"
-        target="_blank"
-        rel="noopener noreferrer"
-        :label="offer.button_text"
-        class="map-button"
-      />
-      <q-btn
-        v-else
-        @click="noMapAvailable"
-        label="Voir sur la carte"
-        class="map-button"
-      />
+  <q-card class="card-container">
+    <div class="row no-wrap">
+      <div class="image-container">
+        <q-img
+          :src="offer.image"
+          :ratio="1"
+          class="offer-image"
+          fit="cover"
+        />
+      </div>
+
+      <q-card-section class="content-section">
+        <div class="text-h5 purple-text">{{ offer.title }}</div>
+        <div class="text-h6 orange-text">{{ offer.offer_details }}</div>
+
+        <div class="description">{{ offer.description }}</div>
+
+        <div class="category">
+          <span class="text-weight-bold">Category: </span>
+          {{ offer.category }}
+        </div>
+        <div class="button-wrapper">
+          <q-btn
+            v-if="offer.google_maps"
+            :href="offer.google_maps"
+            target="_blank"
+            rel="noopener noreferrer"
+            :label="offer.button_text || 'View Offer'"
+            class="map-button"
+            unelevated
+          />
+          <q-btn
+            v-else
+            @click="noMapAvailable"
+            label="View on map"
+            class="map-button"
+            unelevated
+          />
+        </div>
+
+      </q-card-section>
     </div>
   </q-card>
 </template>
 
 <script>
 export default {
-  name: 'OfferList',
+  name: 'OfferCard',
   props: {
     offer: {
       type: Object,
@@ -38,7 +55,7 @@ export default {
         image: '',
         title: '',
         description: '',
-        button_text: "Découvrir l'offre",
+        button_text: 'View Offer',
         google_maps: '',
         category: '',
         offer_details: '',
@@ -48,119 +65,112 @@ export default {
   methods: {
     noMapAvailable() {
       this.$q.notify({
+        message: 'No Google Maps link available for this offer',
         color: 'negative',
-        message: 'Aucun lien Google Maps disponible pour cette offre.',
-      });
+        position: 'top',
+      })
     },
   },
-};
+}
 </script>
 
 <style scoped>
-.cardCompo {
-  display: flex;
-  overflow: hidden;
+.card-container {
+  max-width: 1200px;
+  margin: 20px auto;
   transition: box-shadow 0.3s ease;
-  height: 100%;
-  margin: 20px 15%;
-  padding: 0;
   border-radius: 15px;
-  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.cardCompo:hover {
+.card-container:hover {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-.offer-image {
+.image-container {
+  width: 300px;
   flex-shrink: 0;
-  width: 250px;
 }
 
-.offer-image .q-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.offer-image {
+  height: 300px;
   border-radius: 15px 0 0 15px;
 }
 
-.offer-details {
-  padding: 20px;
+.content-section {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex: 1;
-  min-width: 0;
-  box-sizing: border-box;
 }
 
-.offer-details h2 {
+.purple-text {
   color: #512da8;
-  font-size: 1.5rem;
   margin-bottom: 10px;
   word-wrap: break-word;
 }
 
-.offer-details h3 {
+.orange-text {
   color: #FCAD51;
-  font-size: 1.5rem;
+  margin-bottom: 15px;
   word-wrap: break-word;
-  margin-block-start: 0;
-  margin-block-end: 0;
 }
 
-.offer-details p {
+.description {
   color: #333;
   margin-bottom: 20px;
   word-wrap: break-word;
 }
 
+.category {
+  margin-bottom: 20px;
+}
+
 .map-button {
-  display: inline-block;
+  max-width: 50%;
   color: white;
   background-color: #fdae51;
-  border: none;
   border-radius: 50px;
   padding: 8px 16px;
   font-size: 14px;
   font-family: 'Chau Philomene One', sans-serif;
-  cursor: pointer;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-transform: uppercase;
-  text-decoration: none;
-  text-align: center;
+  transition: transform 0.3s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .map-button:hover {
   transform: scale(1.05);
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 768px) {
-  .cardCompo {
-    flex-direction: column;
-    margin: 20px 5%;
+  .card-container {
+    width: 90%;
   }
 
-  .offer-image {
+  .row {
+    flex-direction: column;
+  }
+
+  .image-container {
     width: 100%;
   }
 
-  .offer-image .q-img {
+  .offer-image {
     border-radius: 15px 15px 0 0;
   }
 
-  .offer-details {
+  .content-section {
     padding: 15px;
   }
 
-  .offer-details h2 {
+  .purple-text {
     font-size: 1.2rem;
   }
 
-  .offer-details p {
+  .description {
     font-size: 1rem;
   }
 
@@ -170,4 +180,4 @@ export default {
   }
 }
 </style>
-```
+

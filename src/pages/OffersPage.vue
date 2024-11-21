@@ -1,5 +1,5 @@
 <template>
-  <q-page class="main">
+  <q-page class="q-pa-xl">
     <div class="category-nav">
       <CategorySelector @category-selected="fetchOffersByCategory" />
     </div>
@@ -63,6 +63,11 @@ export default {
 </script>
 
 <style scoped>
+.category-nav{
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .main {
   margin-top: 7%;
   display: flex;

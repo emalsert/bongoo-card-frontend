@@ -1,5 +1,7 @@
 <template>
+
   <div class="q-pa-md">
+    <h2>Offers</h2>
     <q-card class="create-offer-card">
       <q-card-section>
         <div class="text-h6">Créer une Nouvelle Offre</div>
@@ -238,5 +240,9 @@ export default {
 .create-offer-card {
   max-width: 600px;
   margin: 0 auto;
+}
+h2 {
+  color: #fdae51;
+  margin-bottom: 20px;
 }
 </style>
