@@ -4,7 +4,7 @@
   <q-page class="reset-password-page">
     <q-card class="reset-password-card">
       <q-card-section>
-        <div class="text-h6">Réinitialiser le Mot de Passe</div>
+        <div class="text-h6">Reset Password</div>
       </q-card-section>
 
       <q-form @submit.prevent="handleResetPassword">
@@ -12,30 +12,30 @@
           <q-input
             filled
             v-model="email"
-            label="Adresse e-mail"
+            label="Email address"
             type="email"
-            :rules="[val => !!val || 'Ce champ est requis', val => /.+@.+\..+/.test(val) || 'Adresse e-mail invalide']"
+            :rules="[val => !!val || 'This field is required', val => /.+@.+\..+/.test(val) || 'Invalid email address']"
             disabled
           />
           <q-input
             filled
             v-model="password"
-            label="Nouveau mot de passe"
+            label="New password"
             type="password"
-            :rules="[val => !!val || 'Ce champ est requis', val => val.length >= 8 || 'Au moins 8 caractères']"
+            :rules="[val => !!val || 'This field is required', val => val.length >= 8 || 'At least 8 characters']"
           />
           <q-input
             filled
             v-model="passwordConfirmation"
-            label="Confirmer le nouveau mot de passe"
+            label="Confirm new password"
             type="password"
-            :rules="[val => !!val || 'Ce champ est requis', val => val === password || 'Les mots de passe ne correspondent pas']"
+            :rules="[val => !!val || 'This field is required', val => val === password || 'Passwords do not match']"
           />
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Annuler" color="primary" @click="resetForm" />
-          <q-btn flat label="Réinitialiser" type="submit" color="primary" :loading="loading" />
+          <q-btn flat label="Cancel" color="primary" @click="resetForm" />
+          <q-btn flat label="Reset" type="submit" color="primary" :loading="loading" />
         </q-card-actions>
       </q-form>
 
@@ -100,23 +100,23 @@ export default {
         if (response.success) {
           alert.value = {
             show: true,
-            title: 'Succès',
-            message: 'Votre mot de passe a été réinitialisé avec succès.',
+            title: 'Success',
+            message: 'Your password has been successfully reset.',
           };
           resetForm();
         } else {
           alert.value = {
             show: true,
-            title: 'Erreur',
-            message: response.message || 'Une erreur est survenue.',
+            title: 'Error',
+            message: response.message || 'An error occurred.',
           };
         }
       } catch (error) {
-        console.error('Erreur lors de la réinitialisation du mot de passe:', error);
+        console.error('Error while resetting password:', error);
         alert.value = {
           show: true,
-          title: 'Erreur',
-          message: error.response?.data?.message || 'Une erreur est survenue.',
+          title: 'Error',
+          message: error.response?.data?.message || 'An error occurred.',
         };
       } finally {
         loading.value = false;
@@ -147,6 +147,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 5%;
 }
 
 .reset-password-card {

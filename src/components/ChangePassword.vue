@@ -137,6 +137,7 @@ export default {
   width: 100%;
   max-width: 500px;
   padding: 20px;
+  margin-top: 5%;
 }
 
 @media (max-width: 600px) {

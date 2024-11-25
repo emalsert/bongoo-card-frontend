@@ -16,29 +16,34 @@
         <div class="card-details">
           <q-card class="details-card">
             <q-card-section>
-              <h1 class="text-primary text-h4 q-mb-sm">BONGO CARD 2024</h1>
+              <h1 class="text-primary text-h4 q-mb-sm">Bongoo Cambodia – 2024 Edition</h1>
               <div class="text-negative text-bold q-mb-md text-h6">
-                Stock: 159/350
+                Available Now - Stock: 159/350
               </div>
 
               <div class="offers-section">
-                <h2 class="text-accent text-h5 q-mb-sm">70€ OF FREE GIFTS</h2>
+                <h2 class="text-accent text-h5 q-mb-sm">30+ EXCLUSIVE DEALS</h2>
                 <p class="q-mb-lg">
-                  Get <span class="text-weight-bold">10 free gifts with no purchase required</span>
-                  on your first visit to our partners.
-                  Your card is <span class="text-weight-bold">instantly profitable!</span>
+                  Enjoy discounts and perks at the best venues in Cambodia. Your
+                  <span class="text-weight-bold">Bongoo card pays for itself instantly</span> with just a few visits!
                 </p>
 
-                <h2 class="text-accent text-h5 q-mb-sm">THE BEST BRANDS</h2>
+                <h2 class="text-accent text-h5 q-mb-sm">AMAZING PARTNERS</h2>
                 <p class="q-mb-lg">
-                  McDonald's, Pokawa, Burger de Papa, Pizza Hut... Offers negotiated for you in the
-                  <span class="text-weight-bold">50 best brands</span> in Montpellier.
+                  Backstreet Bar, La Plantation, Anantara, Seekers Spirits, and more. From
+                  <span class="text-weight-bold">cozy local gems to premium spots</span>, there's something for everyone.
                 </p>
 
-                <h2 class="text-accent text-h5 q-mb-sm">IN ALL CITIES</h2>
+                <h2 class="text-accent text-h5 q-mb-sm">ANYWHERE IN CAMBODIA</h2>
+                <p class="q-mb-lg">
+                  Whether you're in <span class="text-weight-bold">Phnom Penh, Siem Reap, or Kampot</span>,
+                  Bongoo connects you to the best deals all over the country. New partners added regularly!
+                </p>
+
+                <h2 class="text-accent text-h5 q-mb-sm">GET YOUR BONGOO CARD NOW</h2>
                 <p class="q-mb-none">
-                  Enjoy <span class="text-weight-bold">permanent offers</span> from Lyon, Grenoble,
-                  and Toulouse with your Mojjo Montpellier card!
+                  <span class="text-weight-bold">Experience smarter outings while saving</span>.
+                  Don't miss out – join the Bongoo community today!
                 </p>
               </div>
             </q-card-section>
@@ -68,6 +73,7 @@ export default defineComponent({
 
 <style scoped>
 .get-card-page {
+  background-color: #f8f8f8;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -117,6 +123,26 @@ export default defineComponent({
 
 .details-card:hover {
   box-shadow: 8px 8px 0px #bd5a0d;
+}
+
+:deep(.text-h4) {
+  font-family: 'Chau Philomene One', sans-serif;
+  color: #6573d6;
+}
+
+:deep(.text-h5) {
+  font-family: 'Chau Philomene One', sans-serif;
+  color: #fdae51;
+}
+
+:deep(.text-h6) {
+  font-family: 'Chau Philomene One', sans-serif;
+}
+
+p {
+  line-height: 1.2;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 @media (max-width: 768px) {

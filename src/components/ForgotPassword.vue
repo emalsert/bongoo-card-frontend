@@ -2,7 +2,7 @@
   <q-page class="forgot-password-page">
     <q-card class="forgot-password-card">
       <q-card-section>
-        <div class="text-h6">Réinitialiser le Mot de Passe</div>
+        <div class="text-h6">Reset Password</div>
       </q-card-section>
 
       <q-form @submit.prevent="handleForgotPassword">
@@ -10,15 +10,15 @@
           <q-input
             filled
             v-model="email"
-            label="Adresse e-mail"
+            label="Email address"
             type="email"
-            :rules="[val => !!val || 'Ce champ est requis', val => /.+@.+\..+/.test(val) || 'Adresse e-mail invalide']"
+            :rules="[val => !!val || 'This field is required', val => /.+@.+\..+/.test(val) || 'Invalid email address']"
           />
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Annuler" color="primary" @click="resetForm" />
-          <q-btn flat label="Envoyer" type="submit" color="primary" :loading="loading" />
+          <q-btn flat label="Cancel" color="primary" @click="resetForm" />
+          <q-btn flat label="Send" type="submit" color="primary" :loading="loading" />
         </q-card-actions>
       </q-form>
 
@@ -65,23 +65,23 @@ export default {
         if (response.success) {
           alert.value = {
             show: true,
-            title: 'Succès',
-            message: 'Un e-mail de réinitialisation a été envoyé.',
+            title: 'Success',
+            message: 'A reset email has been sent.',
           };
           resetForm();
         } else {
           alert.value = {
             show: true,
-            title: 'Erreur',
-            message: response.message || 'Une erreur est survenue.',
+            title: 'Error',
+            message: response.message || 'An error occurred.',
           };
         }
       } catch (error) {
-        console.error('Erreur lors de la demande de réinitialisation:', error);
+        console.error('Error during reset request:', error);
         alert.value = {
           show: true,
-          title: 'Erreur',
-          message: error.response?.data?.message || 'Une erreur est survenue.',
+          title: 'Error',
+          message: error.response?.data?.message || 'An error occurred.',
         };
       } finally {
         loading.value = false;
@@ -104,6 +104,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 5%;
 }
 
 .forgot-password-card {
