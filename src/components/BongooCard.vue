@@ -33,7 +33,7 @@
       </div>
 
       <div class="card-footer">
-        <p class="website">www.carte-bongoo.com</p>
+        <p class="website">www.bongoo-card.com</p>
         <p class="disclaimer">This card is nominative, strictly personal and limited to 1 per person per year. Cannot be resold, exchanged or refunded. Offers valid upon presentation of ID.</p>
       </div>
     </div>
