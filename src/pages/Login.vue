@@ -1,69 +1,101 @@
 <template>
   <q-layout view="lHh lpr lFf">
     <q-page-container>
-      <q-page>
-        <div class="login-container">
-          <ContainerComponent class="cardCompo">
-            <form @submit.prevent="handleLogin">
-              <h3>Login</h3>
-              <div>
-                <label for="email">Email: </label>
-                <input type="email" v-model="email" id="email" required />
-              </div>
+      <q-page class="flex flex-center">
+        <q-card class="login-card">
+          <q-card-section>
+            <h3 class="text-h5 text-primary text-center q-mb-md">Login</h3>
 
-              <div>
-                <label for="password">Password: </label>
-                <input type="password" v-model="password" id="password" required />
-              </div>
+            <q-form @submit="handleLogin" class="q-gutter-md">
+              <q-input
+                v-model="email"
+                label="Email"
+                type="email"
+                :rules="[
+                 val => !!val || 'Email is required',
+                 val => /.+@.+\..+/.test(val) || 'Please enter a valid email'
+               ]"
+                outlined
+                lazy-rules
+              >
+                <template v-slot:prepend>
+                  <q-icon name="email" />
+                </template>
+              </q-input>
 
-              <!-- Remplacement du bouton HTML standard par q-btn -->
-              <q-btn
-                label="Log In"
-                @click="handleLogin"
-                :loading="loading"
-                class="primary"
-              />
-            </form>
-            <div v-if="errorMessage" class="error-message">
+              <q-input
+                v-model="password"
+                label="Password"
+                :type="isPwd ? 'password' : 'text'"
+                :rules="[val => !!val || 'Password is required']"
+                outlined
+                lazy-rules
+              >
+                <template v-slot:prepend>
+                  <q-icon name="lock" />
+                </template>
+                <template v-slot:append>
+                  <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                  />
+                </template>
+              </q-input>
+
+              <div class="full-width q-mt-md">
+                <q-btn
+                  label="Log In"
+                  type="submit"
+                  color="primary"
+                  class="full-width"
+                  :loading="loading"
+                />
+              </div>
+            </q-form>
+
+            <q-banner v-if="errorMessage" class="bg-negative text-white q-mt-md">
               {{ errorMessage }}
+            </q-banner>
+
+            <div class="text-center q-mt-md">
+              Don't have an account?
+              <q-btn
+                flat
+                color="primary"
+                label="Sign up"
+                to="/signup"
+                no-caps
+              />
             </div>
-            <div class="signup-link">
-              Don't have an account? <router-link to="/signup">Sign up</router-link>
-            </div>
-          </ContainerComponent>
-        </div>
+          </q-card-section>
+        </q-card>
       </q-page>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useAuthStore } from 'src/stores/auth'
-import ContainerComponent from 'components/ContainerComponent.vue'
 
 export default {
   name: 'LoginScreen',
-
-  components: {
-    ContainerComponent
-  },
 
   setup() {
     const email = ref('')
     const password = ref('')
     const errorMessage = ref('')
-    const authStore = useAuthStore()
     const loading = ref(false)
+    const isPwd = ref(true)
+    const authStore = useAuthStore()
 
     const handleLogin = async () => {
       errorMessage.value = ''
       loading.value = true
       try {
         await authStore.login({ email: email.value, password: password.value })
-        // Récupérer le paramètre redirect
         const redirectPath = authStore.$state.redirectPath || '/home'
-        // Redirection après succès de la connexion
         window.location.href = redirectPath
       } catch (error) {
         errorMessage.value = error.response?.data?.message || 'Login failed.'
@@ -77,100 +109,24 @@ export default {
       password,
       errorMessage,
       handleLogin,
-      loading
+      loading,
+      isPwd
     }
   }
 }
 </script>
 
 <style scoped>
-.signup-link {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.signup-link a {
-  color: #6573D6;
-  text-decoration: none;
-}
-
-.signup-link a:hover {
-  text-decoration: underline;
-}
-
-.cardCompo {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  transition: box-shadow 0.3s ease;
-  height: auto;
-  width: 400px;
-  margin: 0 auto;
-  margin-top: 10%;
-  margin-bottom: 50px;
+.login-card {
+  width: 100%;
+  max-width: 400px;
   padding: 20px;
-  border-radius: 15px;
-  box-sizing: border-box;
-  justify-content: center;
-  background-color: #fff;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-h3 {
-  color: #6573D6;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-input {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-button {
-  padding: 10px;
-  background-color: #6573D6;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #4959B8;
-}
-
-.error-message {
-  color: red;
-  margin-top: 10px;
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  .cardCompo {
+@media (max-width: 480px) {
+  .login-card {
     width: 90%;
-    margin-top: 30%;
-    padding: 15px;
-  }
-
-  h3 {
-    font-size: 18px;
-  }
-
-  input {
-    font-size: 14px;
-  }
-
-  button {
-    font-size: 14px;
+    margin: 20px;
   }
 }
 </style>

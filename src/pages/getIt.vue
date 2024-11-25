@@ -1,17 +1,19 @@
 <template>
   <q-page class="get-card-page">
-    <div class="content-wrapper q-pa-md">
-      <div class="row q-col-gutter-xl items-center">
-        <div class="col-12 col-md-6">
+    <div class="content-wrapper">
+      <div class="card-container">
+        <div class="card-image">
           <q-img
-            src="/images/bongoo-card.png"
+            src="https://res.cloudinary.com/doyo6tvky/image/upload/v1732511380/q3zhvd54fktxeypv1ool.png"
             alt="Bongoo Card"
             class="bongoo-card"
             fit="contain"
+            spinner-color="primary"
+            spinner-size="82px"
           />
         </div>
 
-        <div class="col-12 col-md-6">
+        <div class="card-details">
           <q-card class="details-card">
             <q-card-section>
               <h1 class="text-primary text-h4 q-mb-sm">BONGO CARD 2024</h1>
@@ -66,20 +68,40 @@ export default defineComponent({
 
 <style scoped>
 .get-card-page {
-  background-color: #f8f8f8;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .content-wrapper {
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
-  padding-top: 5vh;
+  padding: 2rem 1rem;
+  flex: 1;
+}
+
+.card-container {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.card-image, .card-details {
+  flex: 1;
+}
+
+.card-image {
+  width: 100%;
+  max-width: 600px;
 }
 
 .bongoo-card {
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  width: 100%;
+  height: auto;
 }
 
 .bongoo-card:hover {
@@ -97,14 +119,20 @@ export default defineComponent({
   box-shadow: 8px 8px 0px #bd5a0d;
 }
 
-
 @media (max-width: 768px) {
   .content-wrapper {
-    padding-top: 15vh;
+    padding: 1rem;
   }
 
-  .details-card {
-    margin-top: 20px;
+  .card-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-image {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
   }
 
   :deep(.text-h4) {
@@ -113,11 +141,6 @@ export default defineComponent({
 
   :deep(.text-h5) {
     font-size: 1.4rem;
-  }
-
-  .bongoo-card {
-    width: 90%;
-    margin: 0 auto;
   }
 }
 

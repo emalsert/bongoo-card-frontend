@@ -1,12 +1,25 @@
 <template>
   <container-component class="bongoo-card">
     <div class="card-header">
-      <div class="number">24/25</div>
       <div class="title">
         <span class="bongoo-text">Bongoo</span>
         <span class="location">Phnom Penh</span>
       </div>
-      <img src="src/assets/images/bongoo.png" alt="Bongoo mascot" class="mascot"/>
+      <q-img
+        src="https://res.cloudinary.com/doyo6tvky/image/upload/v1732441631/nfabcignygjtb6kwqoa2.png"
+        height="60px"
+        width="60px"
+        class="logonav"
+        alt="Logo Bongoo"
+        spinner-color="primary"
+        spinner-size="40px"
+      >
+        <template v-slot:error>
+          <div class="absolute-full flex flex-center bg-negative text-white">
+            Impossible de charger l'image
+          </div>
+        </template>
+      </q-img>
     </div>
 
     <div class="card-content">
@@ -50,17 +63,16 @@ export default {
 
 <style lang="scss" scoped>
 .bongoo-card {
-  width: 400px;
+  width: 90%;
   aspect-ratio: 1.586;
   background: white;
-  padding: 20px;
+  padding: 1px;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 40px;
 
   .number {
     font-size: 24px;
@@ -69,11 +81,11 @@ export default {
 
   .title {
     display: flex;
-    flex-direction: column;
+    gap: 6px;
     align-items: center;
 
     .bongoo-text {
-      font-family: 'Chau Philomene One', sans-serif;
+      font-family: 'Gulf Display', sans-serif;
       color: #FCAD51;
       font-size: 36px;
     }
@@ -118,7 +130,7 @@ export default {
 
   .website {
     font-family: 'Gulf Display', sans-serif;
-    color: #6573D6;
+    color: #FCAD51;
     font-size: 18px;
     margin-bottom: 10px;
   }

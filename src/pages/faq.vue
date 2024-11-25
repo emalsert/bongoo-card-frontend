@@ -3,7 +3,7 @@
     <div class="content-wrapper">
       <div class="header-section">
         <q-img
-          src="/images/header/header2.png"
+          src="https://res.cloudinary.com/doyo6tvky/image/upload/v1732510901/niwzcte2vgdhlznxa25t.png"
           alt="Bongoo"
           class="bongoo-logo"
           :ratio="1"
@@ -11,13 +11,20 @@
       </div>
 
       <div class="faq-section">
-        <FAQItem
+        <q-expansion-item
           v-for="(faq, index) in faqs"
           :key="index"
-          :question="faq.question"
-          :answer="faq.answer"
-          class="q-mb-md"
-        />
+          class="faq-item q-mb-md"
+          :label="faq.question"
+          header-class="faq-header"
+          expand-icon-class="faq-icon"
+        >
+          <q-card class="faq-answer">
+            <q-card-section>
+              {{ faq.answer }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
       </div>
     </div>
     <AppFooter />
@@ -26,13 +33,11 @@
 
 <script>
 import { defineComponent } from 'vue'
-import FAQItem from '../components/FAQItem.vue'
 import AppFooter from 'components/FooterCompo.vue'
 
 export default defineComponent({
   name: 'FAQPage',
   components: {
-    FAQItem,
     AppFooter
   },
   data() {
@@ -84,7 +89,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 7% auto 40px;
+  margin: 1% auto 40px;
   width: 100%;
 }
 
@@ -101,13 +106,53 @@ export default defineComponent({
   padding: 0 20px;
 }
 
+.faq-item {
+  border: 2px solid #000;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: 5px 5px 0px #bd5a0d;
+  background-color: white;
+}
+
+.faq-item:hover {
+  box-shadow: 8px 8px 0px #bd5a0d;
+  transform: translate(-2px, -2px);
+}
+
+:deep(.faq-header) {
+  padding: 20px 24px;
+  font-family: 'Chau Philomene One', sans-serif;
+  font-size: 1.2rem;
+  color: #6573d6;
+}
+
+:deep(.faq-icon) {
+  color: #6573d6;
+}
+
+:deep(.q-expansion-item__content) {
+  background-color: white;
+}
+
+.faq-answer {
+  padding: 0;
+  box-shadow: none;
+  background-color: white;
+}
+
+:deep(.q-card__section) {
+  padding: 0 24px 20px;
+  color: #333;
+  line-height: 1.5;
+}
+
 @media (max-width: 768px) {
   .content-wrapper {
     padding: 10px;
   }
 
   .header-section {
-    margin: 25% auto 30px;
   }
 
   .bongoo-logo {

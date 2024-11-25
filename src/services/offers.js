@@ -8,22 +8,19 @@ import { storeToRefs } from 'pinia'
  * @param {string} category - (Optionnel) La catégorie à filtrer.
  * @returns {Promise<Object>} - Les données des offres.
  */
-export const getOffers = async (category = null) => {
-  const auth = useAuthStore()
-  const { token } = storeToRefs(auth)
-
-  if (!token.value) {
-    throw new Error('No authentication token available')
-  }
-
+export const getOffers = async (category = null, nombre = null) => {
   try {
-    const params = category ? { categorie: category } : {}
-    const response = await api.get('/offers', {
-      headers: {
-        Authorization: `Bearer ${token.value}`,
-      },
-      params,
-    })
+    const params = {}
+
+    if (category) {
+      params.category = category
+    }
+
+    if (nombre !== null && nombre > 0) {
+      params.nombre = nombre
+    }
+
+    const response = await api.get('/offers', { params })
     return response.data
   } catch (error) {
     console.error('Error fetching offers:', error)

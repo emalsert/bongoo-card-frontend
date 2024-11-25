@@ -1,39 +1,30 @@
 <template>
   <q-layout view="lHh lpr lFf">
-    <q-header elevated class="bg-white text-primary">
-      <!-- Header Content -->
-    </q-header>
+      <q-page class="content-container">
+        <div class="content-wrapper">
+          <div v-if="errorMessage" class="error-message q-mb-md">
+            {{ errorMessage }}
+          </div>
 
-    <q-page-container>
-      <q-page class="flex flex-center">
-        <div class="text-center">
-          <h2>Bongoo Card</h2>
-          <p>Nom : {{ firstName }} {{ lastName }}</p>
-        </div>
+          <div class="card-section q-mb-lg">
+            <UserPhoto />
+          </div>
 
-        <div v-if="errorMessage" class="error-message">
-          {{ errorMessage }}
-        </div>
-
-        <UserPhoto />
-
-        <div v-if="isSubscriptionActive">
-          <BongooCard
-            :firstName="firstName"
-            :lastName="lastName"
-          />
-        </div>
-        <div v-else>
-          <q-banner class="bg-red text-white">
-            You need to pay subscription to unlock the Bongoo card.
-          </q-banner>
+          <div class="card-section">
+            <div v-if="isSubscriptionActive">
+              <BongooCard
+                :firstName="firstName"
+                :lastName="lastName"
+              />
+            </div>
+            <div v-else>
+              <q-banner class="bg-red text-white">
+                You need to pay subscription to unlock the Bongoo card.
+              </q-banner>
+            </div>
+          </div>
         </div>
       </q-page>
-    </q-page-container>
-
-    <q-footer elevated class="bg-grey-8 text-white">
-      <!-- Footer Content -->
-    </q-footer>
   </q-layout>
 </template>
 
@@ -68,6 +59,7 @@ export default {
       try {
         const response = await getUserDetails(userId.value);
         if (response.success && response.user) {
+          console.log('User details:', response);
           firstName.value = response.user.first_name;
           lastName.value = response.user.last_name;
           subscriptionExpirationDate.value = response.user.subscription_expiration_date;
@@ -101,22 +93,44 @@ export default {
 </script>
 
 <style scoped>
-.main {
-  margin-top: 7%;
+.content-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.content-wrapper {
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-section {
+  width: 100%;
   display: flex;
   justify-content: center;
 }
 
-@media (max-width: 768px) {
-  .main {
-    margin-top: 25%;
-  }
-}
-
 .error-message {
   color: red;
-  margin-top: 10px;
   text-align: center;
+  padding: 10px;
+  width: 100%;
+}
+
+h2 {
+  color: #512da8;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    margin-top: 40px;
+    padding: 0 20px;
+  }
 }
 </style>
 

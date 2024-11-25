@@ -2,14 +2,14 @@
   <q-page class="hero-section">
     <div class="hero-banner">
       <q-img
-        src="src/assets/images/header/header1.png"
+        src="https://res.cloudinary.com/doyo6tvky/image/upload/v1732511014/qyp33hbyu7kcu2yyge6e.png"
         alt="Bongoo"
         class="bongoo q-mt-xl"
         spinner-color="primary"
         spinner-size="82px"
       />
       <q-img
-        src="src/assets/images/header/header2.png"
+        src="https://res.cloudinary.com/doyo6tvky/image/upload/v1732510901/niwzcte2vgdhlznxa25t.png"
         alt="Bongoo"
         class="bongoo hide-on-mobile q-mt-xl"
         spinner-color="primary"
@@ -56,10 +56,10 @@ export default defineComponent({
     text-align: center;
     margin-bottom: 2%;
     flex-wrap: wrap;
+    font-family: 'ch', sans-serif;
 
     .bongoo {
       max-width: 40%;
-      margin-top: 7%;
     }
   }
 
@@ -70,7 +70,6 @@ export default defineComponent({
 
     .hero-banner {
       .bongoo {
-        margin-top: 25%;
         margin-bottom: 5%;
         max-width: 100%;
       }

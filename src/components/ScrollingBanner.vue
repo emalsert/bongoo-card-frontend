@@ -1,10 +1,13 @@
 <template>
   <div class="scrolling-banner bg-orange-8">
-    <q-slide-transition appear>
+    <div class="scrolling-container">
       <div class="scrolling-text">
         BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO
       </div>
-    </q-slide-transition>
+      <div class="scrolling-text">
+        BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO BONGOO
+      </div>
+    </div>
   </div>
 </template>
 
@@ -20,23 +23,28 @@ export default {
   overflow: hidden;
   padding: 5px 0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-  .scrolling-text {
-    display: inline-block;
-    white-space: nowrap;
-    animation: scroll 10s linear infinite;
-    font-family: 'Gulf Display', sans-serif;
-    font-size: 2rem;
-    color: #FFF8EF;
-  }
+.scrolling-container {
+  display: flex;
+  width: fit-content;
+  animation: scroll 20s linear infinite;
+}
+
+.scrolling-text {
+  white-space: nowrap;
+  font-family: 'Gulf Display', sans-serif;
+  font-size: 2rem;
+  color: #FFF8EF;
+  padding-right: 50px; // Espace entre les deux copies du texte
 }
 
 @keyframes scroll {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 </style>

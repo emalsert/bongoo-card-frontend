@@ -7,19 +7,19 @@
           flat
           no-caps
           label="Terms and Conditions"
-          class="text-weight-bold text-black"
+          class="text-weight-bold"
         />
         <q-btn
           to="/"
           flat
           no-caps
           label="Legal Notice"
-          class="text-weight-bold text-black"
+          class="text-weight-bold"
         />
       </div>
       <div class="footer-logo">
         <q-img
-          src="/images/bongoo.png"
+          src="https://res.cloudinary.com/doyo6tvky/image/upload/v1732441631/nfabcignygjtb6kwqoa2.png"
           alt="Bongoo Logo"
           width="120px"
           height="40px"
@@ -50,6 +50,8 @@ export default defineComponent({
   max-width: 1000px;
   margin: 0 auto;
   width: 100%;
+  font-family: "Chau Philomene One", sans-serif;
+  color: #fdae51;
 }
 
 .footer-links {

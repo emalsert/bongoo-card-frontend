@@ -106,12 +106,16 @@ export default {
 
 .purple-text {
   color: #512da8;
+  font-size: 1.5rem;
+  font-family: "Chau Philomene One", sans-serif;
   margin-bottom: 10px;
   word-wrap: break-word;
 }
 
 .orange-text {
+  font-size: 1.5rem;
   color: #FCAD51;
+  font-family: "Chau Philomene One", sans-serif;
   margin-bottom: 15px;
   word-wrap: break-word;
 }
@@ -147,7 +151,7 @@ export default {
 
 @media (max-width: 768px) {
   .card-container {
-    width: 90%;
+    width: 100%;
   }
 
   .row {
@@ -168,10 +172,15 @@ export default {
 
   .purple-text {
     font-size: 1.2rem;
+    margin-bottom: 1px;
   }
-
+  .orange-text{
+    margin-bottom: 7px;
+    line-height: 1;
+  }
   .description {
     font-size: 1rem;
+    margin-bottom: 1px;
   }
 
   .map-button {

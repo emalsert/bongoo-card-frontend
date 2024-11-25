@@ -54,6 +54,7 @@ export default {
 </script>
 
 <style scoped>
+
 .cardCompo {
   display: flex;
   flex-direction: column;
@@ -76,6 +77,7 @@ export default {
 
 h2 {
   color: #512da8;
+  font-family: "Chau Philomene One", sans-serif;
   font-size: 1.5rem;
 }
 

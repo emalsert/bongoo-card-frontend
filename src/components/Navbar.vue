@@ -3,7 +3,23 @@
     <q-toolbar class="navbar">
       <!-- Logo -->
       <div class="logo">
-        <q-img src="/images/bongoo.png" height="40px" class="logonav" alt="Logo Bongoo" />
+        <router-link to="/" class="logo-link">
+          <q-img
+            src="https://res.cloudinary.com/doyo6tvky/image/upload/v1732441631/nfabcignygjtb6kwqoa2.png"
+            height="40px"
+            width="40px"
+            class="logonav"
+            alt="Logo Bongoo"
+            spinner-color="primary"
+            spinner-size="40px"
+          >
+            <template v-slot:error>
+              <div class="absolute-full flex flex-center bg-negative text-white">
+                Impossible de charger l'image
+              </div>
+            </template>
+          </q-img>
+        </router-link>
       </div>
 
       <!-- Mobile Menu Button -->
@@ -15,11 +31,11 @@
         aria-label="Menu"
         class="mobile-menu"
         @click="toggleMenu"
-        display="lt-md"
+        color="primary"
       />
 
       <!-- Desktop Navigation Links -->
-      <div class="desktop-menu nav-links" v-if="!menuOpen" display="gt-sm">
+      <div class="desktop-menu nav-links" v-if="!menuOpen">
         <div class="nav-links">
           <q-btn
             v-for="link in navLinks"
@@ -33,23 +49,32 @@
         </div>
       </div>
 
-      <!-- Mobile Drawer Menu -->
-      <q-drawer v-model="menuOpen" side="left" bordered class="mobile-drawer">
-        <ScrollingBanner class="scrolling-banner lt-md" />
-        <q-list>
-          <q-item
+      <!-- Mobile Menu Overlay -->
+      <div
+        v-if="menuOpen"
+        class="mobile-menu-overlay"
+        @click="closeMenu"
+      ></div>
+
+      <!-- Mobile Menu Content -->
+      <div
+        class="mobile-menu-content"
+        :class="{ 'mobile-menu-open': menuOpen }"
+      >
+        <ScrollingBanner class="scrolling-banner" />
+        <div class="mobile-nav-links">
+          <q-btn
             v-for="link in navLinks"
             :key="link.to"
             :to="link.to"
-            clickable
+            flat
+            class="mobile-nav-item"
             @click="closeMenu"
           >
-            <q-item-section>
-              <q-item-label>{{ link.label }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-drawer>
+            {{ link.label }}
+          </q-btn>
+        </div>
+      </div>
     </q-toolbar>
   </q-header>
 </template>
@@ -57,11 +82,13 @@
 <script>
 import { ref } from 'vue';
 import ScrollingBanner from './ScrollingBanner.vue';
+import { QImg } from 'quasar';
 
 export default {
   name: 'NavbarCompo',
   components: {
     ScrollingBanner,
+    QImg
   },
   setup() {
     const menuOpen = ref(false);
@@ -75,10 +102,16 @@ export default {
 
     function toggleMenu() {
       menuOpen.value = !menuOpen.value;
+      if (menuOpen.value) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
     }
 
     function closeMenu() {
       menuOpen.value = false;
+      document.body.style.overflow = '';
     }
 
     return {
@@ -96,6 +129,7 @@ export default {
   padding: 0 20px;
   height: 64px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 
   .logo {
     transition: transform 0.5s ease-in-out;
@@ -108,10 +142,12 @@ export default {
 .nav-links {
   display: flex;
   align-items: center;
+  margin-left: auto;
 
   .nav-item {
     color: #6573d6;
     font-weight: bold;
+    font-family: 'Chau Philomene One', sans-serif;
     font-size: 1.2rem;
     margin: 0 10px;
     text-transform: uppercase;
@@ -126,13 +162,71 @@ export default {
   display: none;
 }
 
-// Desktop specific styles
-@media (min-width: 769px) {
-  .scrolling-banner {
-    display: none;
+// Mobile Menu Overlay
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+// Mobile Menu Content
+.mobile-menu-content {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 80%;
+  max-width: 300px;
+  height: auto;
+  background-color: white;
+  z-index: 1000;
+  border-radius: 0 20px 20px 0;
+  padding: 20px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease-in-out;
+
+  &.mobile-menu-open {
+    left: 0;
   }
 
-  .mobile-drawer {
+  .scrolling-banner {
+    margin-bottom: 20px;
+  }
+
+  .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .mobile-nav-item {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #f5f5f5;
+      color: #6573d6;
+      font-weight: bold;
+      font-family: 'Chau Philomene One', sans-serif;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      text-align: left;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #6573d6;
+        color: white;
+        transform: translateX(10px);
+      }
+    }
+  }
+}
+
+// Desktop specific styles
+@media (min-width: 769px) {
+  .mobile-menu-content,
+  .mobile-menu-overlay {
     display: none;
   }
 }
@@ -145,27 +239,9 @@ export default {
 
   .mobile-menu {
     display: block;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-  }
-
-  .mobile-drawer {
-    .q-item {
-      padding: 12px 20px;
-      font-size: 1.2rem;
-      color: #6573d6;
-      font-weight: bold;
-
-      &:hover {
-        color: #fdae51;
-      }
-    }
-
-    .q-list {
-      padding-top: 20px;
-    }
+    margin-left: auto;
   }
 }
 </style>
+
 

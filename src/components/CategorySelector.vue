@@ -1,10 +1,11 @@
+<!-- CategorySelector.vue -->
 <template>
   <q-card class="category-nav">
     <q-select
       v-model="selectedCategory"
       @update:model-value="onCategoryChange"
       :options="categoryOptions"
-      label="Choisir une catégorie"
+      label="Choose a category"
       clearable
     />
   </q-card>
@@ -18,7 +19,6 @@ export default {
     return {
       selectedCategory: '',
       categoryOptions: [
-        { label: 'Toutes les catégories', value: '' },
         { label: 'Bar', value: 'Bar' },
         { label: 'Shop', value: 'Shop' },
         { label: 'Restaurant', value: 'Restaurant' },
@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     onCategoryChange(value) {
+      console.log('CategorySelector - Selected value:', value);
       this.$emit('category-selected', value);
     },
   },

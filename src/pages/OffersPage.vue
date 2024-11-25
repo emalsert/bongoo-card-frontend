@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-xl">
     <div class="category-nav">
-      <CategorySelector @category-selected="fetchOffersByCategory" />
+      <CategorySelector @category-selected="handleCategoryChange" />
     </div>
 
     <div v-if="offers.length > 0">
@@ -10,53 +10,78 @@
     <div v-else>
       <q-card class="q-mt-md">
         <q-card-section>
-          <p>Aucune offre trouvée pour cette catégorie.</p>
+          <p>Loading offers for this category...</p>
         </q-card-section>
       </q-card>
     </div>
+
   </q-page>
+  <AppFooter />
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { getOffers } from '../services/offers';
 import CategorySelector from '../components/CategorySelector.vue';
 import OfferCard from '../components/OffersList.vue';
+import AppFooter from "components/FooterCompo.vue";
 
 export default {
   name: 'OffersPage',
   components: {
+    AppFooter,
     CategorySelector,
     OfferCard,
   },
   setup() {
     const offers = ref([]);
+    const selectedCategory = ref('');
 
     const fetchOffers = async () => {
+      console.log('Fetching all offers');
       try {
         const data = await getOffers();
         offers.value = data.offers || [];
+        console.log('Fetched offers:', offers.value);
       } catch (error) {
-        console.error('Erreur lors de la récupération des offres:', error);
+        console.error('Error fetching offers:', error);
       }
     };
 
     const fetchOffersByCategory = async (category) => {
+      console.log('Fetching offers for category:', category);
       try {
         const data = await getOffers({ category });
         offers.value = data.offers || [];
+        console.log('Fetched offers by category:', offers.value);
       } catch (error) {
-        console.error('Erreur lors de la récupération des offres:', error);
+        console.error('Error fetching offers by category:', error);
       }
     };
 
+    const handleCategoryChange = (category) => {
+      console.log('Parent received category change:', category);
+      selectedCategory.value = category;
+    };
+
+    watch(selectedCategory, (newCategory) => {
+      console.log('Watch detected category change:', newCategory);
+      if (newCategory) {
+        fetchOffersByCategory(newCategory);
+      } else {
+        fetchOffers();
+      }
+    });
+
     onMounted(() => {
+      console.log('Component mounted, fetching initial offers');
       fetchOffers();
     });
 
     return {
       offers,
-      fetchOffersByCategory,
+      handleCategoryChange,
+      selectedCategory,
     };
   },
 };
