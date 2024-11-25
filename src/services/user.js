@@ -138,3 +138,32 @@ export const resetPassword = async (passwordData) => {
 };
 
 
+export const getAllUsers = async () => {
+  try {
+    const response = await api.get('/users')
+    return response.data
+  } catch (error) {
+    console.error('Error fetching all users:', error)
+    throw error
+  }
+}
+
+export const updateUser = async (userId, userData) => {
+  try {
+    const response = await api.patch(`/users/${userId}`, userData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
+  }
+};
+
+export const deleteUser = async (userId) => {
+  try {
+    const response = await api.delete(`/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw error;
+  }
+};

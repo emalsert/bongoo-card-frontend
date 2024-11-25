@@ -1,6 +1,6 @@
 <!-- src/components/UserTable.vue -->
 <template>
-  <div>
+  <div class="q-pa-md">
     <h2>Users</h2>
 
     <!-- Afficher un spinner pendant le chargement -->
@@ -35,7 +35,7 @@
           <q-card-section>
             <q-input
               filled
-              v-model="selectedUser.firstName"
+              v-model="selectedUser.first_name"
               label="Prénom"
               type="text"
               :rules="[val => !!val || 'Ce champ est requis']"
@@ -43,7 +43,7 @@
 
             <q-input
               filled
-              v-model="selectedUser.lastName"
+              v-model="selectedUser.last_name"
               label="Nom"
               type="text"
               :rules="[val => !!val || 'Ce champ est requis']"
@@ -62,6 +62,14 @@
               v-model="selectedUser.role"
               label="Rôle"
               :options="roles"
+              :rules="[val => !!val || 'Ce champ est requis']"
+            />
+
+            <q-input
+              filled
+              v-model="selectedUser.subscription_expiration_date"
+              label="Date d'expiration de la souscription"
+              type="date"
               :rules="[val => !!val || 'Ce champ est requis']"
             />
           </q-card-section>
@@ -96,6 +104,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
+import { getAllUsers, updateUser, deleteUser } from '../services/user';
 
 export default {
   name: 'UserTable',
@@ -104,36 +113,26 @@ export default {
     const loading = ref(true); // Indicateur de chargement
 
     // Rôles disponibles
-    const roles = ['admin', 'user', 'moderator'];
+    const roles = ['user', 'admin']; // Ajustez selon vos rôles disponibles
 
     // Variables pour les dialogues
     const showEditDialog = ref(false);
     const showDeleteDialog = ref(false);
     const selectedUser = ref(null);
+    const errorMessage = ref(null);
 
-    // Fonction pour récupérer les utilisateurs (données d'exemple pour le moment)
+    // Fonction pour récupérer les utilisateurs
     const fetchUsers = async () => {
-      // Simuler un appel API avec des données fictives
-      setTimeout(() => {
-        users.value = [
-          {
-            id: 1,
-            firstName: 'John',
-            lastName: 'Doe',
-            email: 'john.doe@example.com',
-            role: 'admin',
-          },
-          {
-            id: 2,
-            firstName: 'Jane',
-            lastName: 'Smith',
-            email: 'jane.smith@example.com',
-            role: 'user',
-          },
-          // Ajoutez plus d'utilisateurs si nécessaire
-        ];
+      loading.value = true;
+      try {
+        const data = await getAllUsers();
+        users.value = data.users || [];
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        errorMessage.value = 'Erreur lors de la récupération des utilisateurs.';
+      } finally {
         loading.value = false;
-      }, 1000);
+      }
     };
 
     onMounted(() => {
@@ -143,10 +142,16 @@ export default {
     // Définition des colonnes pour q-table
     const columns = [
       { name: 'id', label: 'ID', field: 'id', sortable: true },
-      { name: 'firstName', label: 'Prénom', field: 'firstName', sortable: true },
-      { name: 'lastName', label: 'Nom', field: 'lastName', sortable: true },
+      { name: 'firstName', label: 'Prénom', field: 'first_name', sortable: true },
+      { name: 'lastName', label: 'Nom', field: 'last_name', sortable: true },
       { name: 'email', label: 'Email', field: 'email', sortable: true },
       { name: 'role', label: 'Rôle', field: 'role', sortable: true },
+      {
+        name: 'subscription_expiration_date',
+        label: 'Date d\'expiration',
+        field: 'subscription_expiration_date',
+        sortable: true,
+      },
       { name: 'actions', label: 'Actions' }, // Pas de 'field' car on utilise un template personnalisé
     ];
 
@@ -161,19 +166,31 @@ export default {
       showDeleteDialog.value = true;
     };
 
-    const handleEditSubmit = () => {
-      // Mettre à jour l'utilisateur dans la liste (remplacer par un appel API)
-      const index = users.value.findIndex((user) => user.id === selectedUser.value.id);
-      if (index !== -1) {
-        users.value[index] = { ...selectedUser.value };
+    const handleEditSubmit = async () => {
+      try {
+        await updateUser(selectedUser.value.id, selectedUser.value);
+        // Mettre à jour l'utilisateur dans la liste
+        const index = users.value.findIndex((user) => user.id === selectedUser.value.id);
+        if (index !== -1) {
+          users.value[index] = { ...selectedUser.value };
+        }
+        showEditDialog.value = false;
+      } catch (error) {
+        console.error('Error updating user:', error);
+        errorMessage.value = 'Erreur lors de la mise à jour de l\'utilisateur.';
       }
-      showEditDialog.value = false;
     };
 
-    const handleDelete = () => {
-      // Supprimer l'utilisateur de la liste (remplacer par un appel API)
-      users.value = users.value.filter((user) => user.id !== selectedUser.value.id);
-      showDeleteDialog.value = false;
+    const handleDelete = async () => {
+      try {
+        await deleteUser(selectedUser.value.id);
+        // Supprimer l'utilisateur de la liste
+        users.value = users.value.filter((user) => user.id !== selectedUser.value.id);
+        showDeleteDialog.value = false;
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        errorMessage.value = 'Erreur lors de la suppression de l\'utilisateur.';
+      }
     };
 
     return {
@@ -188,6 +205,7 @@ export default {
       openDeleteDialog,
       handleEditSubmit,
       handleDelete,
+      errorMessage,
     };
   },
 };
@@ -205,3 +223,4 @@ h2 {
   align-items: center;
 }
 </style>
+
