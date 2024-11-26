@@ -68,6 +68,21 @@
                 no-caps
               />
             </div>
+
+            <div class="direct-access">
+              <span class="or-text">You can also discover our offers directly</span>
+              <q-btn
+                unelevated
+                class="home-button"
+                to="/home"
+                no-caps
+              >
+                <span class="button-content">
+                  <q-icon name="home" class="q-mr-sm" />
+                  Visit as Guest
+                </span>
+              </q-btn>
+            </div>
           </q-card-section>
         </q-card>
       </q-page>
@@ -123,12 +138,56 @@ export default {
   padding: 20px;
 }
 
+.direct-access {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.or-text {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.home-button {
+  background: #FCAD51 !important;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  width: 80%;
+  font-family: 'Chau Philomene One', sans-serif;
+  font-size: 1.1rem;
+}
+
+.home-button:hover {
+  background: #fd9e31 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
 @media (max-width: 480px) {
   .login-card {
     width: 90%;
     margin: 20px;
   }
+
+  .home-button {
+    width: 100%;
+  }
 }
 </style>
+
 
 

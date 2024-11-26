@@ -15,7 +15,7 @@
           >
             <template v-slot:error>
               <div class="absolute-full flex flex-center bg-negative text-white">
-                Impossible de charger l'image
+                Cannot load image
               </div>
             </template>
           </q-img>
@@ -46,6 +46,13 @@
           >
             {{ link.label }}
           </q-btn>
+          <q-btn
+            to="/user/card"
+            class="my-card-btn"
+            unelevated
+          >
+            My Card
+          </q-btn>
         </div>
       </div>
 
@@ -72,6 +79,14 @@
             @click="closeMenu"
           >
             {{ link.label }}
+          </q-btn>
+          <q-btn
+            to="/user/card"
+            class="mobile-my-card-btn"
+            @click="closeMenu"
+            unelevated
+          >
+            My Card
           </q-btn>
         </div>
       </div>
@@ -156,6 +171,24 @@ export default {
       color: #fdae51;
     }
   }
+
+  .my-card-btn {
+    background: #FCAD51;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 15px;
+    margin-left: 15px;
+    font-weight: bold;
+    font-family: 'Chau Philomene One', sans-serif;
+    text-transform: uppercase;
+    transition: transform 0.3s ease;
+    font-size: 1.2rem;
+
+    &:hover {
+      transform: scale(1.05);
+      background: #fd9e31;
+    }
+  }
 }
 
 .mobile-menu {
@@ -217,6 +250,26 @@ export default {
       &:hover {
         background-color: #6573d6;
         color: white;
+        transform: translateX(10px);
+      }
+    }
+
+    .mobile-my-card-btn {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      background: #FCAD51;
+      color: white;
+      font-weight: bold;
+      font-family: 'Chau Philomene One', sans-serif;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      text-align: left;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+
+      &:hover {
+        background: #fd9e31;
         transform: translateX(10px);
       }
     }
