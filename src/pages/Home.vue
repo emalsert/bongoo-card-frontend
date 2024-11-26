@@ -2,6 +2,7 @@
   <q-layout>
     <q-page class="page-container">
       <HeroBanner />
+      <BuyCard />
       <div class="q-pl-lg q-pr-lg">
         <div v-if="offers.length > 0">
           <OfferCard v-for="offer in offers" :key="offer.id" :offer="offer" />
@@ -32,11 +33,13 @@ import OfferCard from "components/OffersList.vue"
 import { onMounted, ref } from "vue"
 import { getOffers } from "src/services/offers"
 import AppFooter from "components/FooterCompo.vue";
+import BuyCard from "components/BuyCard.vue";
 
 export default {
   name: 'HomeScreen',
 
   components: {
+    BuyCard,
     AppFooter,
     OfferCard,
     HeroBanner

@@ -11,7 +11,10 @@
             spinner-color="primary"
             spinner-size="82px"
           />
+          <BuyCard/>
         </div>
+
+
 
         <div class="card-details">
           <q-card class="details-card">
@@ -22,6 +25,7 @@
               </div>
 
               <div class="offers-section">
+
                 <h2 class="text-accent text-h5 q-mb-sm">30+ EXCLUSIVE DEALS</h2>
                 <p class="q-mb-lg">
                   Enjoy discounts and perks at the best venues in Cambodia. Your
@@ -61,10 +65,12 @@
 import { defineComponent } from 'vue'
 import ScrollingBanner from 'components/ScrollingBanner.vue'
 import AppFooter from 'components/FooterCompo.vue'
+import BuyCard from "components/BuyCard.vue";
 
 export default defineComponent({
   name: 'GetCardPage',
   components: {
+    BuyCard,
     ScrollingBanner,
     AppFooter
   }

@@ -11,6 +11,8 @@
                 v-model="firstName"
                 label="First Name"
                 :rules="[val => !!val || 'First name is required']"
+                :error="fieldErrors.first_name !== undefined"
+                :error-message="fieldErrors.first_name && fieldErrors.first_name[0]"
                 outlined
                 lazy-rules
               >
@@ -22,6 +24,8 @@
               <q-input
                 v-model="lastName"
                 label="Last Name"
+                :error="fieldErrors.last_name !== undefined"
+                :error-message="fieldErrors.last_name && fieldErrors.last_name[0]"
                 outlined
                 lazy-rules
               >
@@ -38,6 +42,8 @@
                   val => !!val || 'Email is required',
                   val => /.+@.+\..+/.test(val) || 'Please enter a valid email'
                 ]"
+                :error="fieldErrors.email !== undefined"
+                :error-message="fieldErrors.email && fieldErrors.email[0]"
                 outlined
                 lazy-rules
               >
@@ -54,6 +60,34 @@
                   val => !!val || 'Password is required',
                   val => val.length >= 6 || 'Password must be at least 6 characters'
                 ]"
+                :error="fieldErrors.password !== undefined"
+                :error-message="fieldErrors.password && fieldErrors.password[0]"
+                outlined
+                lazy-rules
+              >
+                <template v-slot:prepend>
+                  <q-icon name="lock" />
+                </template>
+                <template v-slot:append>
+                  <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                  />
+                </template>
+              </q-input>
+
+              <!-- Champ de Confirmation du Mot de Passe -->
+              <q-input
+                v-model="passwordConfirmation"
+                label="Confirm Password"
+                :type="isPwd ? 'password' : 'text'"
+                :rules="[
+                  val => !!val || 'Please confirm your password',
+                  val => val === password || 'Passwords do not match'
+                ]"
+                :error="fieldErrors.password_confirmation !== undefined"
+                :error-message="fieldErrors.password_confirmation && fieldErrors.password_confirmation[0]"
                 outlined
                 lazy-rules
               >
@@ -106,6 +140,8 @@
 </template>
 
 <script>
+import { useAuthStore } from 'src/stores/auth';
+
 export default {
   name: 'SignupPage',
   data() {
@@ -114,29 +150,55 @@ export default {
       lastName: '',
       email: '',
       password: '',
+      passwordConfirmation: '', // Nouveau champ pour la confirmation du mot de passe
       isPwd: true,
       loading: false,
       errorMessage: '',
-      successMessage: ''
-    }
+      successMessage: '',
+      fieldErrors: {}, // Pour stocker les erreurs spécifiques aux champs
+    };
   },
   methods: {
     async handleSignup() {
       this.loading = true;
       this.errorMessage = '';
       this.successMessage = '';
+      this.fieldErrors = {};
+
+      // Préparer les données pour l'inscription
+      const payload = {
+        first_name: this.firstName,
+        last_name: this.lastName,
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation, // Ajouter la confirmation du mot de passe
+      };
 
       try {
-        // Votre logique de signup ici
-        this.loading = false;
-        this.successMessage = 'Account created successfully!';
+        // Appeler la méthode signup du store
+        const authStore = useAuthStore();
+        const result = await authStore.signup(payload);
+
+        if (result.success) {
+          this.successMessage = result.message;
+          // Rediriger après un court délai
+          setTimeout(() => {
+            this.$router.push('/login');
+          }, 2000);
+        } else {
+          this.errorMessage = result.message;
+          // Stocker les erreurs spécifiques aux champs
+          this.fieldErrors = result.errors;
+        }
       } catch (error) {
+        this.errorMessage = 'An unexpected error occurred.';
+        console.error(error);
+      } finally {
         this.loading = false;
-        this.errorMessage = error.message || 'An error occurred during signup';
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -153,6 +215,8 @@ export default {
   }
 }
 </style>
+
+
 
 
 

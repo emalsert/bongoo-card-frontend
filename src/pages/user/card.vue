@@ -6,7 +6,13 @@
 
     <q-page-container>
       <q-page>
-        <div class="grid-container">
+        <!-- Loader pendant le chargement -->
+        <div v-if="isLoading" class="flex items-center justify-center" style="height: 100vh;">
+          <q-spinner color="primary" size="3em" />
+        </div>
+
+        <!-- Contenu une fois chargé -->
+        <div v-else class="grid-container">
           <div class="grid-item">
             <transition name="slide" mode="out-in">
               <div v-if="showBongooCard" key="bongoo">
@@ -17,10 +23,19 @@
                     @click="toggleCard"
                   />
                 </div>
-                <div v-else>
-                  <q-banner class="bg-red text-white">
-                    Vous devez payer un abonnement pour débloquer la carte Bongoo.
-                  </q-banner>
+                <div v-else class="flex justify-center items-center p-4">
+                  <q-btn
+                    class="bg-primary text-white shadow-lg transform hover:scale-105 transition-transform"
+                    icon="shopping_cart"
+                    :href="`https://t.me/bongoo_pay_bot?start=${id}`"
+                    target="_blank"
+                    padding="lg"
+                  >
+                    <div class="text-center">
+                      <div class="text-lg font-bold">Unlock You Bongoo Card</div>
+                      <div class="text-sm opacity-90">Click here to buy yours today! </div>
+                    </div>
+                  </q-btn>
                 </div>
               </div>
               <div v-else key="qrcode">
@@ -88,10 +103,12 @@ export default {
     const authStore = useAuthStore();
     const router = useRouter();
 
+    const isLoading = ref(true);
     const loading = ref(false);
     const errorMessage = ref('');
     const firstName = ref('');
     const lastName = ref('');
+    const id = ref('');
     const subscriptionExpirationDate = ref('');
     const showSubscriptionDialog = ref(false);
     const showBongooCard = ref(true);
@@ -119,6 +136,7 @@ export default {
           photo: cloudinaryResponse.public_id
         });
       } catch (error) {
+        // Gérer l'erreur si nécessaire
       }
     };
 
@@ -128,6 +146,7 @@ export default {
         if (response) {
           firstName.value = response.first_name;
           lastName.value = response.last_name;
+          id.value = response.id;
           subscriptionExpirationDate.value = response.subscription_expiration_date;
 
           if (!isSubscriptionActive.value) {
@@ -138,6 +157,8 @@ export default {
         }
       } catch (error) {
         errorMessage.value = 'Erreur lors de la récupération de l\'utilisateur.';
+      } finally {
+        isLoading.value = false;
       }
     });
 
@@ -151,9 +172,11 @@ export default {
     return {
       handleLogout,
       loading,
+      isLoading,
       errorMessage,
       firstName,
       lastName,
+      id,
       handleProfilePhotoUpload,
       showSubscriptionDialog,
       isSubscriptionActive,

@@ -54,6 +54,32 @@ export const useAuthStore = defineStore('auth', {
       return response.data;
     },
 
+    async signup(payload) {
+      try {
+        const response = await apiClient.post('/signup', payload);
+        const token = response.data.access_token;
+
+        localStorage.setItem('access_token', token);
+        this.token = token;
+        this.isAuthenticated = true;
+        this.user = response.data.user; // Données utilisateur
+
+        return { success: true, message: 'Account created successfully!' };
+      } catch (error) {
+        console.error('Signup error:', error.response?.data || error.message);
+
+        // Récupérer les erreurs de validation
+        const validationErrors = error.response?.data?.errors || {};
+
+        return {
+          success: false,
+          message: error.response?.data?.message || 'Signup failed',
+          errors: validationErrors,
+        };
+      }
+    },
+
+
 
     async logout() {
       try {
