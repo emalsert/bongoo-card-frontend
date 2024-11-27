@@ -58,7 +58,7 @@ export default {
 
     onMounted(() => {
       const userId = authStore.user?.id;
-      userUrl.value = `http://localhost:9000/user/${userId}`;
+      userUrl.value = `https://bongoo-card.com/user/${userId}`;
     });
 
     const copyUrl = async () => {
