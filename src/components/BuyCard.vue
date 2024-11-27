@@ -1,60 +1,58 @@
 <template>
   <div>
-    <!-- Loading State -->
-    <div v-if="isLoading" class="flex justify-center items-center p-4">
-      <q-spinner size="2em" color="primary" />
+    <!-- Si l'utilisateur est authentifié -->
+    <div v-if="isAuthenticated" class="flex justify-center items-center p-4">
+      <!-- Vérifiez si 'id' est défini -->
+      <q-btn
+        v-if="id"
+        class="my-card-btn bg-primary text-white shadow-lg transform hover:scale-105 transition-transform"
+        icon="shopping_cart"
+        :href="`https://t.me/bongoo_pay_bot?start=${id}`"
+        target="_blank"
+        padding="lg"
+      >
+        <div class="text-center">
+          <div class="text-lg font-bold">Unlock Your Bongoo Card</div>
+        </div>
+      </q-btn>
+      <!-- Affichez un message de chargement si 'id' n'est pas défini -->
+      <div v-else class="flex justify-center items-center p-4">
+        <q-spinner></q-spinner>
+      </div>
     </div>
 
-    <!-- Content after Loading -->
-    <div v-else>
-      <!-- If the user is authenticated -->
-      <div v-if="isAuthenticated" class="flex justify-center items-center p-4">
-        <q-btn
-          class="my-card-btn bg-primary text-white shadow-lg transform hover:scale-105 transition-transform"
-          icon="shopping_cart"
-          :href="`https://t.me/bongoo_pay_bot?start=${id}`"
-          target="_blank"
-          padding="lg"
-        >
-          <div class="text-center">
-            <div class="text-lg font-bold">Unlock Your Bongoo Card</div>
-          </div>
-        </q-btn>
-      </div>
+    <!-- Si l'utilisateur n'est pas authentifié -->
+    <div v-else class="flex justify-center items-center p-4">
+      <q-btn
+        class="my-card-btn bg-primary text-white shadow-lg transform hover:scale-105 transition-transform"
+        icon="shopping_cart"
+        @click="openSignupDialog"
+        padding="lg"
+      >
+        <div class="text-center">
+          <div class="text-lg font-bold">Unlock Your Bongoo Card</div>
+        </div>
+      </q-btn>
 
-      <!-- If the user is not authenticated -->
-      <div v-else class="flex justify-center items-center p-4">
-        <q-btn
-          class="my-card-btn bg-primary text-white shadow-lg transform hover:scale-105 transition-transform"
-          icon="shopping_cart"
-          @click="openSignupDialog"
-          padding="lg"
-        >
-          <div class="text-center">
-            <div class="text-lg font-bold">Unlock Your Bongoo Card</div>
-          </div>
-        </q-btn>
+      <!-- Popup de connexion requise -->
+      <q-dialog v-model="signupDialog">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Inscription Requise</div>
+          </q-card-section>
 
-        <!-- Signup Required Popup -->
-        <q-dialog v-model="signupDialog">
-          <q-card>
-            <q-card-section>
-              <div class="text-h6">Sign Up Required</div>
-            </q-card-section>
+          <q-card-section>
+            <p>
+              Vous devez vous inscrire, puis aller dans le menu => <strong>Ma Carte</strong> ou revenir et cliquer sur ce bouton.
+            </p>
+          </q-card-section>
 
-            <q-card-section>
-              <p>
-                You need to sign up, then go to the menu => <strong>My Card</strong> or come back and click this button.
-              </p>
-            </q-card-section>
-
-            <q-card-actions align="right">
-              <q-btn flat label="Cancel" color="primary" v-close-popup />
-              <q-btn flat label="Sign Up" color="primary" @click="goToSignup" />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-      </div>
+          <q-card-actions align="right">
+            <q-btn flat label="Annuler" color="primary" v-close-popup />
+            <q-btn flat label="S'inscrire" color="primary" @click="goToSignup" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -71,7 +69,6 @@ export default {
     const authStore = useAuthStore();
     const router = useRouter();
 
-    const isLoading = ref(true);
     const isAuthenticated = ref(false);
     const id = ref('');
     const signupDialog = ref(false);
@@ -82,19 +79,17 @@ export default {
         if (authStore.isAuthenticated) {
           isAuthenticated.value = true;
           const response = await getCurrentUser();
-          if (response) {
+          if (response && response.id) {
             id.value = response.id;
           } else {
-            errorMessage.value = 'User not found.';
+            errorMessage.value = 'Utilisateur non trouvé.';
           }
         } else {
           isAuthenticated.value = false;
         }
       } catch (error) {
-        errorMessage.value = 'Error retrieving user data.';
+        errorMessage.value = 'Erreur lors de la récupération des données utilisateur.';
         console.error(error);
-      } finally {
-        isLoading.value = false; // Loading is complete
       }
     });
 
@@ -114,7 +109,6 @@ export default {
       openSignupDialog,
       goToSignup,
       errorMessage,
-      isLoading,
     };
   },
 };
@@ -138,23 +132,8 @@ export default {
   transform: scale(1.05);
   background: #fd9e31;
 }
-
-.flex {
-  display: flex;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.p-4 {
-  padding: 1rem;
-}
 </style>
+
 
 
 
