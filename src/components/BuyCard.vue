@@ -43,7 +43,7 @@
 
           <q-card-section>
             <p>
-              Vous devez vous inscrire, puis aller dans le menu => <strong>Ma Carte</strong> ou revenir et cliquer sur ce bouton.
+              You must register, then go to the menu => <strong>My Card</strong> or come back and click on this button.
             </p>
           </q-card-section>
 
