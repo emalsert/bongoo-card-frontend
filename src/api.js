@@ -5,7 +5,7 @@ import { useAuthStore } from 'stores/auth'
 
 // Créez une instance d'Axios
 const apiClient = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api', // Récupère l'URL de l'API depuis les variables d'environnement
+  baseURL: 'https://bongoo-card-backend-9fda547544f0.herokuapp.com/api', // Récupère l'URL de l'API depuis les variables d'environnement
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
