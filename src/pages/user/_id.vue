@@ -7,7 +7,7 @@
           </div>
 
           <div class="card-section q-mb-lg">
-            <UserPhoto />
+            <UserPhotoId :id="7" />
           </div>
 
           <div class="card-section">
@@ -32,14 +32,14 @@
 import { ref, onMounted, computed } from 'vue';
 import { useAuthStore } from 'stores/auth';
 import { useRoute, useRouter } from 'vue-router';
-import UserPhoto from 'components/UserPhoto.vue';
+import UserPhotoId from 'components/UserPhotoId.vue';
 import BongooCard from 'components/BongooCard.vue';
 import { getUserDetails } from 'src/services/user';
 
 export default {
   name: 'UserProfile',
   components: {
-    UserPhoto,
+    UserPhotoId,
     BongooCard,
   },
   setup() {
