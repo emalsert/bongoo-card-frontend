@@ -24,6 +24,7 @@ import getIt from "pages/getIt.vue";
 import ChangePasswordPage from "pages/ChangePasswordPage.vue";
 import ForgotPassword from '../components/ForgotPassword.vue';
 import ResetPassword from '../components/ResetPassword.vue';
+import AdminPromos from "pages/admin/AdminPromos.vue";
 
 
 
@@ -104,6 +105,12 @@ const routes = [
         path: 'manage-users',
         name: 'ManageUsers',
         component: ManageUsers,
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      {
+        path: 'manage-promos',
+        name: 'AdminPromos',
+        component: AdminPromos,
         meta: { requiresAuth: true, requiresAdmin: true },
       },
       // Ajoutez d'autres routes admin ici

@@ -64,6 +64,17 @@
             />
           </div>
 
+          <div>
+            <div v-for="promo in promos" :key="promo.title_promo">
+              <PromoCard
+                :title="promo.title_promo"
+                :desc="promo.desc_promo"
+                :location="promo.location"
+                @promo-claimed="loadUserPromos"
+              />
+            </div>
+          </div>
+
           <div class="logout-button">
             <q-btn
               color="negative"
@@ -89,7 +100,10 @@ import PhotoUpload from 'components/PhotoUpload.vue';
 import UserPhoto from 'components/UserPhoto.vue';
 import BongooCard from 'components/BongooCard.vue';
 import { getCurrentUser, uploadProfilePhoto } from 'src/services/user';
+import { fetchUserPromos } from 'src/services/promos';
+
 import QRCodeGenerator from "components/qrcode.vue";
+import PromoCard from 'components/PromoCard.vue';
 
 export default {
   name: 'UserProfile',
@@ -97,11 +111,13 @@ export default {
     QRCodeGenerator,
     UserPhoto,
     PhotoUpload,
-    BongooCard
+    BongooCard,
+    PromoCard
   },
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
+    const promos = ref([]);
 
     const isLoading = ref(true);
     const loading = ref(false);
@@ -124,7 +140,7 @@ export default {
         await authStore.logout();
         router.push('/login');
       } catch (error) {
-        errorMessage.value = error.response?.data?.message || 'Erreur lors de la déconnexion.';
+        errorMessage.value = error.response?.data?.message || 'Error during logout.';
       } finally {
         loading.value = false;
       }
@@ -132,11 +148,20 @@ export default {
 
     const handleProfilePhotoUpload = async (cloudinaryResponse) => {
       try {
-        const response = await uploadProfilePhoto({
+        await uploadProfilePhoto({
           photo: cloudinaryResponse.public_id
         });
       } catch (error) {
-        // Gérer l'erreur si nécessaire
+        // Handle error if necessary
+      }
+    };
+
+    const loadUserPromos = async () => {
+      try {
+        promos.value = await fetchUserPromos();
+      } catch (error) {
+        console.error('Error fetching user promos:', error);
+        errorMessage.value = 'Error fetching user promos.';
       }
     };
 
@@ -149,14 +174,16 @@ export default {
           id.value = response.id;
           subscriptionExpirationDate.value = response.subscription_expiration_date;
 
+          await loadUserPromos();
+
           if (!isSubscriptionActive.value) {
             showSubscriptionDialog.value = true;
           }
         } else {
-          errorMessage.value = 'Utilisateur non trouvé.';
+          errorMessage.value = 'User not found.';
         }
       } catch (error) {
-        errorMessage.value = 'Erreur lors de la récupération de l\'utilisateur.';
+        errorMessage.value = 'Error retrieving user.';
       } finally {
         isLoading.value = false;
       }
@@ -181,7 +208,9 @@ export default {
       showSubscriptionDialog,
       isSubscriptionActive,
       showBongooCard,
-      toggleCard
+      toggleCard,
+      promos,
+      loadUserPromos
     };
   }
 };
