@@ -45,11 +45,11 @@ export default defineComponent({
       faqs: [
         {
           question: 'What is the Bongoo card?',
-          answer: 'The Bongoo card is an advantage card for everyone, student or not. It gives you unlimited access to discounts and exclusive promotional offers.'
+          answer: 'The Bongoo card is designed for all under 30s (expats, foreigners, locals) to enjoy benefits, discounts, and offers at our partner establishments across Cambodia.'
         },
         {
           question: 'How much does the Bongoo card cost?',
-          answer: 'The Bongoo card costs €9.90 for the year. Once you have it, you can use it as many times as you like. The best part? It pays for itself with just one offer!'
+          answer: 'Here are the pricing options for the Bongoo card 1 month: $3.9, 3 months: $10.4, 6 months: $19.49, 1 year: $35.99. Once you have it, you can use it as many times as you like. The best part? It pays for itself with just one offer!'
         },
         {
           question: 'What are the offers?',
@@ -61,11 +61,11 @@ export default defineComponent({
         },
         {
           question: 'How do I use my card?',
-          answer: 'To use your card, simply present it to our partners when you order. They will apply the discount or offer directly to your bill.'
+          answer: 'To use your Bongoo card, simply log in to your member account on the Bongoo platform (via the web app or mobile app once available). The card is fully digital, so there is no physical card to carry. When you\'re at one of our partner establishments, just show the QR code in your member area to the vendor. They will scan it, and the discount or offer will be applied directly to your bill. It\'s quick, easy, and paper-free!'
         },
         {
           question: 'RIGHT NEAR YOU!',
-          answer: 'All offers are easily accessible in Phnom Penh. You can find them in the app or on our website.'
+          answer: 'All offers are easily accessible throughout Cambodia. You can find them in the app or on our website, including in Phnom Penh and other cities across the country.'
         }
       ]
     }

@@ -38,7 +38,7 @@
       <q-dialog v-model="signupDialog">
         <q-card>
           <q-card-section>
-            <div class="text-h6">Inscription Requise</div>
+            <div class="text-h6">Signup is required</div>
           </q-card-section>
 
           <q-card-section>
@@ -48,8 +48,8 @@
           </q-card-section>
 
           <q-card-actions align="right">
-            <q-btn flat label="Annuler" color="primary" v-close-popup />
-            <q-btn flat label="S'inscrire" color="primary" @click="goToSignup" />
+            <q-btn flat label="Cancel" color="primary" v-close-popup />
+            <q-btn flat label="Signup" color="primary" @click="goToSignup" />
           </q-card-actions>
         </q-card>
       </q-dialog>
