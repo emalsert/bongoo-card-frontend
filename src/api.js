@@ -2,37 +2,53 @@
 
 import axios from 'axios'
 import { useAuthStore } from 'stores/auth'
+import {useLoadingStore} from "stores/loadingStores";
 
-// Créez une instance d'Axios
+
 const apiClient = axios.create({
-  baseURL: 'https://bongoo-card-backend-9fda547544f0.herokuapp.com/api', // Récupère l'URL de l'API depuis les variables d'environnement
+  baseURL: 'https://bongoo-card-backend-9fda547544f0.herokuapp.com/api',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
-  withCredentials: true, // Envoie les cookies avec les requêtes (utile pour CSRF)
+  withCredentials: true,
 })
 
-// Intercepteur pour inclure le Bearer Token et le CSRF Token
 apiClient.interceptors.request.use(
   (config) => {
+    // Gestion du token d'authentification
     const authStore = useAuthStore()
     const token = authStore.token || localStorage.getItem('access_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
 
+    // Gestion de l'état de chargement global
+    const loadingStore = useLoadingStore()
+    loadingStore.startRequest()
+
     return config
   },
   (error) => {
+    const loadingStore = useLoadingStore()
+    loadingStore.finishRequest()
     return Promise.reject(error)
   }
 )
 
-// Optionnel : Intercepteur pour gérer les réponses globalement
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Fin du chargement à la réception de la réponse
+    const loadingStore = useLoadingStore()
+    loadingStore.finishRequest()
+    return response
+  },
   (error) => {
+    // Gestion des erreurs et fin du chargement
+    const loadingStore = useLoadingStore()
+    loadingStore.finishRequest()
+
+    // Gestion de l'erreur d'authentification
     if (error.response && error.response.status === 401) {
       const authStore = useAuthStore()
       //authStore.logout()

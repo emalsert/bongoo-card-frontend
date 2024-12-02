@@ -6,6 +6,7 @@ import router from './router'
 import { createPinia } from 'pinia'
 import { useAuthStore } from 'stores/auth'
 import 'src/styles/main.css'
+import 'leaflet/dist/leaflet.css'
 
 const app = createApp(App)
 const pinia = createPinia()

@@ -17,10 +17,11 @@
   "dependencies": {
     "@capacitor/cli": "^6.1.2",
     "@capacitor/ios": "^6.1.2",
-    "@quasar/extras": "^1.16.4",
+    "@quasar/extras": "^1.16.14",
     "@react-native-async-storage/async-storage": "^2.0.0",
     "axios": "^1.7.7",
     "cloudinary": "^2.5.1",
+    "leaflet": "^1.9.4",
     "pinia": "^2.2.6",
     "qrcode.vue": "^3.6.0",
     "quasar": "^2.16.0",

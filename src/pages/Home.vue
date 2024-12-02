@@ -2,6 +2,7 @@
   <q-layout>
     <q-page class="page-container">
       <HeroBanner />
+      <MapComponent />
       <BuyCard />
       <div class="q-pl-lg q-pr-lg">
         <div v-if="offers.length > 0">
@@ -34,11 +35,13 @@ import { onMounted, ref } from "vue"
 import { getOffers } from "src/services/offers"
 import AppFooter from "components/FooterCompo.vue";
 import BuyCard from "components/BuyCard.vue";
+import MapComponent from "components/MapComponent.vue";
 
 export default {
   name: 'HomeScreen',
 
   components: {
+    MapComponent,
     BuyCard,
     AppFooter,
     OfferCard,
@@ -96,5 +99,10 @@ export default {
 :deep(.hero-banner) {
   width: 100%;
 }
+
+BuyCard {
+  margin-top: 0;
+}
+
 </style>
 
