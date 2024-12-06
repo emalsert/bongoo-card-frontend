@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="title">
           <span class="bongoo-text">Bongoo</span>
-          <span class="location">Phnom Penh</span>
+          <span class="location">Cambodia 🇰🇭</span>
         </div>
         <q-img
           src="https://res.cloudinary.com/doyo6tvky/image/upload/v1732441631/nfabcignygjtb6kwqoa2.png"
